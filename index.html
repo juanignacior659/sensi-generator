@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101014">
+<title>Free Fire Sensi Generator</title>
+<style>
+:root{color-scheme:dark;--bg:#0c0c10;--panel:#17171e;--line:#30303b;--txt:#f5f5f7;--muted:#aaaab6;--accent:#ffb21c;--accent2:#ff5b32}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#422016 0,#151116 34%,var(--bg) 70%);color:var(--txt);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
+main{width:min(920px,92%);margin:38px auto 60px}.hero{text-align:center;margin-bottom:24px}.eyebrow{color:var(--accent);font-weight:800;letter-spacing:.18em;font-size:.78rem}.hero h1{font-size:clamp(2rem,6vw,3.6rem);line-height:1.05;margin:10px 0}.hero p{color:var(--muted);margin:0}
+.panel{background:linear-gradient(145deg,#1b1b23,#121218);border:1px solid var(--line);border-radius:22px;padding:clamp(18px,4vw,30px);box-shadow:0 18px 60px #0007}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.field{display:flex;flex-direction:column;gap:8px}.field.full{grid-column:1/-1}label,.legend{font-weight:750}.hint{font-size:.82rem;color:var(--muted)}
+input,select{width:100%;border:1px solid #41414d;background:#0f0f15;color:var(--txt);border-radius:12px;padding:13px;font:inherit;min-height:48px}
+.options{display:flex;flex-wrap:wrap;gap:9px}.choice{position:relative}.choice input{position:absolute;opacity:0;pointer-events:none}.choice span{display:inline-flex;padding:10px 14px;border:1px solid #444451;border-radius:999px;color:#ddd;cursor:pointer}.choice input:checked+span{background:#3b2910;border-color:var(--accent);color:#ffd27a}
+button{border:0;border-radius:13px;padding:14px 18px;font:inherit;font-weight:850;cursor:pointer}.generate{width:100%;margin-top:22px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#17100a;font-size:1.05rem}.secondary{background:#292932;color:white;border:1px solid #444451}
+.result{display:none;margin-top:22px;border:1px solid #5b4728;border-radius:18px;padding:20px;background:#17140f}.result.show{display:block}.result h2{margin:0 0 4px}.sub{color:var(--muted);font-size:.9rem;margin:0 0 18px}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.stat{background:#222129;border:1px solid #393640;border-radius:13px;padding:12px}.stat small{display:block;color:var(--muted)}.stat strong{font-size:1.55rem;color:#ffc04a}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.note{font-size:.85rem;color:#c4c0b9;margin-top:16px}.footer{text-align:center;color:var(--muted);font-size:.82rem;margin-top:18px}
+@media(max-width:600px){main{margin:22px auto 40px}.grid,.stats{grid-template-columns:1fr}.field.full{grid-column:auto}.panel{border-radius:17px}}
+</style>
+</head>
+<body>
+<main>
+<header class="hero">
+  <div class="eyebrow">CONFIGURADOR PERSONALIZADO</div>
+  <h1>🔥 SENSI GENERATOR</h1>
+  <p>Free Fire · Configuraciones iniciales para probar</p>
+</header>
+<section class="panel">
+<form id="generator">
+<div class="grid">
+  <div class="field">
+    <label for="brand">Marca del celular</label>
+    <select id="brand">
+      <option>Samsung</option><option>Xiaomi</option><option>Redmi</option><option>Motorola</option>
+      <option>Honor</option><option>iPhone</option><option>Tecno</option><option>Infinix</option>
+      <option>Realme</option><option>OPPO</option><option>Huawei</option><option>Vivo</option>
+      <option>ZTE</option><option>OnePlus</option><option>Google Pixel</option><option>Otra</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="model">Modelo del celular</label>
+    <input id="model" maxlength="50" placeholder="Ej.: Honor X6c" required>
+  </div>
+  <div class="field full">
+    <span class="legend">Nivel de sensibilidad</span>
+    <div class="options">
+      <label class="choice"><input type="radio" name="level" value="Baja"><span>🐢 Baja</span></label>
+      <label class="choice"><input type="radio" name="level" value="Media" checked><span>⚡ Media</span></label>
+      <label class="choice"><input type="radio" name="level" value="Alta"><span>🔥 Alta</span></label>
+    </div>
+  </div>
+  <div class="field full">
+    <span class="legend">Tamaño del botón de disparo</span>
+    <div class="options">
+      <label class="choice"><input type="radio" name="button" value="Chico" checked><span>Chico</span></label>
+      <label class="choice"><input type="radio" name="button" value="Mediano"><span>Mediano</span></label>
+      <label class="choice"><input type="radio" name="button" value="Grande"><span>Grande</span></label>
+    </div>
+  </div>
+  <div class="field full">
+    <label for="dpi">DPI</label>
+    <select id="dpi"><option value="Predeterminado">Predeterminado</option><option value="Personalizado">Personalizado (lo configuro por separado)</option></select>
+    <span class="hint">El DPI no se cambia desde esta página; elegí si usás el valor predeterminado.</span>
+  </div>
+</div>
+<button class="generate" type="submit">GENERAR CONFIGURACIÓN</button>
+</form>
+<section class="result" id="result" aria-live="polite">
+  <h2>Tu configuración inicial 🎯</h2>
+  <p class="sub" id="device"></p>
+  <div class="stats" id="stats"></div>
+  <p class="note" id="details"></p>
+  <div class="actions"><button class="secondary" id="copy" type="button">📋 Copiar valores</button><button class="secondary" id="again" type="button">↻ Generar otra vez</button></div>
+</section>
+</section>
+<p class="footer">Proyecto independiente y no oficial. No está afiliado a Garena ni modifica el juego.</p>
+</main>
+<script>
+const profiles={
+  Baja:{General:135,Rojo:125,DosX:115,CuatroX:100,Francotirador:65,Camara:90},
+  Media:{General:165,Rojo:155,DosX:145,CuatroX:130,Francotirador:75,Camara:110},
+  Alta:{General:190,Rojo:185,DosX:175,CuatroX:165,Francotirador:95,Camara:135}
+};
+const names={General:"General",Rojo:"Punto rojo",DosX:"Mira 2X",CuatroX:"Mira 4X",Francotirador:"Mira francotirador",Camara:"Cámara libre"};
+let currentText="";
+document.getElementById("generator").addEventListener("submit",e=>{
+ e.preventDefault();
+ const brand=document.getElementById("brand").value;
+ const model=document.getElementById("model").value.trim();
+ const level=document.querySelector('input[name="level"]:checked').value;
+ const button=document.querySelector('input[name="button"]:checked').value;
+ const dpi=document.getElementById("dpi").value;
+ const vals={...profiles[level]};
+ const buttonSize={Chico:35,Mediano:45,Grande:55}[button];
+ // Ajuste pequeño del punto rojo según el tamaño elegido; mantener escala 0–200.
+ if(button==="Chico") vals.Rojo=Math.min(200,vals.Rojo+2);
+ if(button==="Grande") vals.Rojo=Math.max(0,vals.Rojo-2);
+ document.getElementById("device").textContent=`${brand} ${model} · Sensibilidad ${level.toLowerCase()}`;
+ document.getElementById("stats").innerHTML=Object.entries(vals).map(([k,v])=>`<div class="stat"><small>${names[k]}</small><strong>${v}</strong><small>de 200</small></div>`).join("")+
+ `<div class="stat"><small>Botón de disparo (${button.toLowerCase()})</small><strong>${buttonSize}%</strong></div>`+
+ `<div class="stat"><small>DPI</small><strong style="font-size:1.05rem">${dpi}</strong></div>`;
+ document.getElementById("details").textContent="Estos son valores de partida orientativos, no mediciones verificadas para este modelo. Probá en el campo de entrenamiento y ajustá de a 5 puntos según cómo te resulte. La opción DPI no modifica los ajustes de tu teléfono.";
+ currentText=`Free Fire - ${brand} ${model}\nNivel: ${level}\n${Object.entries(vals).map(([k,v])=>names[k]+": "+v+"/200").join("\n")}\nBotón: ${buttonSize}% (${button})\nDPI: ${dpi}\nValores orientativos para probar.`;
+ document.getElementById("result").classList.add("show");
+ document.getElementById("result").scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+document.getElementById("copy").addEventListener("click",async()=>{
+ try{await navigator.clipboard.writeText(currentText);document.getElementById("copy").textContent="✓ Copiado";}
+ catch(e){document.getElementById("copy").textContent="No se pudo copiar";}
+});
+document.getElementById("again").addEventListener("click",()=>document.getElementById("generator").requestSubmit());
+</script>
+</body>
+</html>
