@@ -91,6 +91,9 @@ const profiles={
 };
 const names={General:"General",Rojo:"Punto rojo",DosX:"Mira 2X",CuatroX:"Mira 4X",Francotirador:"Mira francotirador",Camara:"Cámara libre"};
 let currentText="";
+let currentText="";
+let lastConfig = "";
+
 document.getElementById("generator").addEventListener("submit",e=>{
  e.preventDefault();
  const brand=document.getElementById("brand").value;
@@ -98,7 +101,26 @@ document.getElementById("generator").addEventListener("submit",e=>{
  const level=document.querySelector('input[name="level"]:checked').value;
  const button=document.querySelector('input[name="button"]:checked').value;
  const dpi=document.getElementById("dpi").value;
- const vals={...profiles[level]};
+const base = profiles[level];
+const variation = level === "Media" ? 10 : 8;
+
+let vals;
+let signature;
+
+do {
+  vals = Object.fromEntries(
+    Object.entries(base).map(([key, value]) => [
+      key,
+      Math.max(0, Math.min(200,
+        value + Math.floor(Math.random() * (variation * 2 + 1)) - variation
+      ))
+    ])
+  );
+
+  signature = JSON.stringify(vals);
+} while (signature === lastConfig);
+
+lastConfig = signature;
  const buttonSize={Chico:35,Mediano:45,Grande:55}[button];
  // Ajuste pequeño del punto rojo según el tamaño elegido; mantener escala 0–200.
  if(button==="Chico") vals.Rojo=Math.min(200,vals.Rojo+2);
